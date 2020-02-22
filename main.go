@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 
@@ -63,12 +64,13 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	// commands start with ",,"
-	cmd := strings.TrimPrefix(m.Content, ",,")
-	cmd = strings.Trim(cmd, " ")
+	msg := strings.TrimPrefix(m.Content, ",,")
+	msg = strings.Trim(msg, " ")
+	action := strings.Split(msg, " ")
+	cmd := action[0]
+	args := strings.Join(action[1:], " ")
 
-	if strings.HasPrefix(cmd, "recipe") {
-		args := strings.TrimPrefix(cmd, "recipe")
-		args = strings.Trim(args, " ")
+	if cmd == "recipe" {
 		recipe, err := internal.FetchRecipe(args)
 		fmt.Println(recipe)
 		if err != nil {
@@ -76,5 +78,14 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		} else {
 			s.ChannelMessageSend(m.ChannelID, recipe.Name+" recipe: "+recipe.Url)
 		}
+	} else if cmd == "alert?" {
+		s.ChannelMessageSend(m.ChannelID, "WIP: is there a PS2 alert?")
+		result, err := internal.IsAlert(args)
+		if err != nil {
+			s.ChannelMessageSend(m.ChannelID, err.Error())
+		}
+		s.ChannelMessageSend(m.ChannelID, strconv.FormatBool(result))
+	} else {
+		s.ChannelMessageSend(m.ChannelID, "unrecognized command")
 	}
 }
