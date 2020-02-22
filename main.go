@@ -1,11 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
-	"net/http"
-	"net/url"
 	"os"
 	"os/signal"
 	"strings"
@@ -44,6 +41,7 @@ func main() {
 		fmt.Println("error opening connection,", err)
 		return
 	}
+	defer dg.Close()
 
 	// Wait here until CTRL-C or other term signal is received.
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
@@ -60,56 +58,23 @@ func main() {
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// Ignore all messages created by the bot itself
-	// This isn't required in this specific example but it's a good practice.
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-	// If the message is "ping" reply with "Pong!"
+
+	// commands start with ",,"
 	cmd := strings.TrimPrefix(m.Content, ",,")
 	cmd = strings.Trim(cmd, " ")
+
 	if strings.HasPrefix(cmd, "recipe") {
 		args := strings.TrimPrefix(cmd, "recipe")
 		args = strings.Trim(args, " ")
-		s.ChannelMessageSend(m.ChannelID, "Pong!")
-		baseUrl := "https://www.themealdb.com/api/json/v1/"
-		apiKey := "1"
-		searchByName := "/search.php?s="
-		mealName := url.QueryEscape(args)
-		url := baseUrl + apiKey + searchByName + mealName
-		fmt.Println(url)
-		req, err := http.NewRequest(http.MethodGet, url, nil)
+		recipe, err := internal.FetchRecipe(args)
+		fmt.Println(recipe)
 		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, "Failed request")
-		}
-		client := http.DefaultClient
-		resp, err := client.Do(req)
-		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, "Failed do")
-		}
-		defer resp.Body.Close()
-		// fmt.Println(resp.Body)
-		// body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, "Failed read resp")
-		}
-		var body internal.Meals
-		if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println(body)
-		if len(body.Meal) < 1 {
-			s.ChannelMessageSend(m.ChannelID, "Could not find that recipe")
+			s.ChannelMessageSend(m.ChannelID, err.Error())
 		} else {
-			s.ChannelMessageSend(m.ChannelID, body.Meal[0].Name+" recipe: "+url)
+			s.ChannelMessageSend(m.ChannelID, recipe.Name+" recipe: "+recipe.Url)
 		}
-		// s.ChannelMessageSend(m.ChannelID, url)
-		// fmt.Println(body.Meal[0].Name)
-		// fmt.Println(string(body))
-
-	}
-
-	// If the message is "pong" reply with "Ping!"
-	if m.Content == "pong" {
-		s.ChannelMessageSend(m.ChannelID, "Ping!")
 	}
 }
