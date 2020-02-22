@@ -1,4 +1,4 @@
-module stew-chicken-bot
+module github.com/bitscuit/stew-chicken-bot
 
 go 1.13
 
