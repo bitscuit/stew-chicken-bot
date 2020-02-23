@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"strconv"
 	"strings"
 	"syscall"
 
@@ -78,13 +77,13 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		} else {
 			s.ChannelMessageSend(m.ChannelID, recipe.Name+" recipe: "+recipe.Url)
 		}
-	} else if cmd == "alert?" {
-		s.ChannelMessageSend(m.ChannelID, "WIP: is there a PS2 alert?")
-		result, err := internal.IsAlert(args)
+	} else if cmd == "ps2" {
+		result, err := internal.Ps2(args)
 		if err != nil {
 			s.ChannelMessageSend(m.ChannelID, err.Error())
+		} else {
+			s.ChannelMessageSend(m.ChannelID, result)
 		}
-		s.ChannelMessageSend(m.ChannelID, strconv.FormatBool(result))
 	} else {
 		s.ChannelMessageSend(m.ChannelID, "unrecognized command")
 	}
