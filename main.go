@@ -58,11 +58,43 @@ func main() {
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// Ignore all messages created by the bot itself
+<<<<<<< HEAD
+	if (m.Author.ID == s.State.User.ID) || (m.Author.Bot) {
+=======
 	if m.Author.ID == s.State.User.ID {
+>>>>>>> master
 		return
 	}
 
 	// commands start with ",,"
+<<<<<<< HEAD
+	if !strings.HasPrefix(m.Content, ",,") {
+		return
+	}
+	msg := strings.TrimPrefix(m.Content, ",,")
+	msg = strings.Trim(msg, " ")
+	action := strings.Split(msg, " ")
+	cmd := action[0]
+	args := strings.Join(action[1:], " ")
+
+	if cmd == "recipe" {
+		recipe, err := internal.FetchRecipe(args)
+		fmt.Println(recipe)
+		if err != nil {
+			s.ChannelMessageSend(m.ChannelID, err.Error())
+		} else {
+			s.ChannelMessageSend(m.ChannelID, recipe.Name+" recipe: "+recipe.Url)
+		}
+	} else if cmd == "ps2" {
+		result, err := internal.Ps2(args)
+		if err != nil {
+			s.ChannelMessageSend(m.ChannelID, err.Error())
+		} else {
+			s.ChannelMessageSend(m.ChannelID, result)
+		}
+	} else {
+		s.ChannelMessageSend(m.ChannelID, "unrecognized command")
+=======
 	cmd := strings.TrimPrefix(m.Content, ",,")
 	cmd = strings.Trim(cmd, " ")
 
@@ -76,5 +108,6 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		} else {
 			s.ChannelMessageSend(m.ChannelID, recipe.Name+" recipe: "+recipe.Url)
 		}
+>>>>>>> master
 	}
 }
