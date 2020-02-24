@@ -63,6 +63,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	// commands start with ",,"
+	if !strings.HasPrefix(m.Content, ",,") {
+		return
+	}
 	msg := strings.TrimPrefix(m.Content, ",,")
 	msg = strings.Trim(msg, " ")
 	action := strings.Split(msg, " ")

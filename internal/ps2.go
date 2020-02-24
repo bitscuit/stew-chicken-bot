@@ -27,6 +27,9 @@ func Ps2(args string) (string, error) {
 	if cmd == "certs" {
 		return getCerts(args)
 	}
+	if cmd == "alert" {
+		return isAlert()
+	}
 	return "false", nil
 }
 
@@ -62,4 +65,8 @@ func getCerts(args string) (string, error) {
 	}
 
 	return args + " has " + body.Player[0].Cert.AvailablePoints + " certs", nil
+}
+
+func isAlert() (string, error) {
+	return "WIP to get alerts", nil
 }
