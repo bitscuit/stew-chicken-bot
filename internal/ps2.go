@@ -133,7 +133,12 @@ func isAlert() (string, error) {
 	fmt.Println(count)
 	alerts := ""
 	for _, v := range result {
-		alerts += v.MetagameEventType.Name.English + "\n"
+		ts, err := strconv.ParseInt(v.Timestamp, 10, 64)
+		if err != nil {
+			return "", errors.New("Something went horribly wrong")
+		}
+		duration := int(time.Since(time.Unix(ts, -1)).Minutes())
+		alerts += v.MetagameEventType.Name.English + " started " + strconv.Itoa(duration) + " minutes go\n"
 	}
 	if alerts == "" {
 		alerts = "No alerts"
