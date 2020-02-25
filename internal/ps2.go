@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
+	"time"
 )
 
 type Players struct {
@@ -83,11 +85,11 @@ type Event struct {
 }
 
 func isAlert() (string, error) {
-	// 1582587000
-	// hard coding URL for now to test
+	searchTime := time.Now().Unix() - 3600
 	baseUrl := "http://census.daybreakgames.com"
-	path := "/get/ps2:v2/world_event?type=METAGAME&world_id=17&after=1582595099&c:limit=50&c:join=metagame_event^terms:description.en=*lock"
-	url := baseUrl + path
+	path := "/get/ps2:v2/world_event"
+	search := "?type=METAGAME&world_id=17&after=" + strconv.FormatInt(searchTime, 10) + "&c:limit=50&c:join=metagame_event^terms:description.en=*lock"
+	url := baseUrl + path + search
 	fmt.Println(url)
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
@@ -132,6 +134,9 @@ func isAlert() (string, error) {
 	alerts := ""
 	for _, v := range result {
 		alerts += v.MetagameEventType.Name.English + "\n"
+	}
+	if alerts == "" {
+		alerts = "No alerts"
 	}
 	return alerts, nil
 }
