@@ -138,7 +138,7 @@ func isAlert() (string, error) {
 			return "", errors.New("Something went horribly wrong")
 		}
 		duration := int(time.Since(time.Unix(ts, -1)).Minutes())
-		alerts += v.MetagameEventType.Name.English + " started " + strconv.Itoa(duration) + " minutes go\n"
+		alerts += v.MetagameEventID + ": " + v.MetagameEventType.Name.English + " started " + strconv.Itoa(duration) + " minutes go\n"
 	}
 	if alerts == "" {
 		alerts = "No alerts"
