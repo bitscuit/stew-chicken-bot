@@ -1,0 +1,99 @@
+{
+    "world_event_list": [
+      {
+        "metagame_event_id": "198",
+        "metagame_event_state": "135",
+        "faction_nc": "0",
+        "faction_tr": "0",
+        "faction_vs": "0",
+        "experience_bonus": "0",
+        "timestamp": "1582857885",
+        "zone_id": "0",
+        "world_id": "17",
+        "event_type": "MetagameEvent",
+        "table_type": "metagame_event",
+        "instance_id": "30927",
+        "metagame_event_state_name": "started"
+      },
+      {
+        "metagame_event_id": "9",
+        "metagame_event_state": "135",
+        "faction_nc": "1",
+        "faction_tr": "1",
+        "faction_vs": "1",
+        "experience_bonus": "0",
+        "timestamp": "1582857045",
+        "zone_id": "0",
+        "world_id": "17",
+        "event_type": "MetagameEvent",
+        "table_type": "metagame_event",
+        "instance_id": "30926",
+        "metagame_event_state_name": "started"
+      },
+      {
+        "metagame_event_id": "154",
+        "metagame_event_state": "135",
+        "faction_nc": "20",
+        "faction_tr": "30.5882358550999989",
+        "faction_vs": "48.2352943420399995",
+        "experience_bonus": "25",
+        "timestamp": "1582856685",
+        "zone_id": "0",
+        "world_id": "17",
+        "event_type": "MetagameEvent",
+        "table_type": "metagame_event",
+        "instance_id": "30925",
+        "metagame_event_state_name": "started",
+        "metagame_event_id_join_metagame_event": {
+          "metagame_event_id": "154",
+          "name": {
+            "de": "Erleuchtung von Hossin",
+            "en": "Hossin Enlightenment",
+            "es": "Iluminación de Hossin",
+            "fr": "Savoir d'Hossin",
+            "it": "Risveglio di Hossin"
+          },
+          "description": {
+            "de": "Kontrolliere das Gebiet, um Hossin zu sperren.",
+            "en": "Control territory to lock Hossin",
+            "es": "Control del territorio para bloquear Hossin",
+            "fr": "Contrôlez du territoire pour verrouiller Hossin",
+            "it": "Controlla il territorio per bloccare Hossin"
+          },
+          "type": "9",
+          "experience_bonus": "25"
+        }
+      },
+      {
+        "metagame_event_id": "17",
+        "metagame_event_state": "138",
+        "faction_nc": "1",
+        "faction_tr": "1",
+        "faction_vs": "1",
+        "experience_bonus": "0",
+        "timestamp": "1582856280",
+        "zone_id": "0",
+        "world_id": "17",
+        "event_type": "MetagameEvent",
+        "table_type": "metagame_event",
+        "instance_id": "30923",
+        "metagame_event_state_name": "ended"
+      },
+      {
+        "metagame_event_id": "172",
+        "metagame_event_state": "138",
+        "faction_nc": "31",
+        "faction_tr": "609",
+        "faction_vs": "0",
+        "experience_bonus": "0",
+        "timestamp": "1582856026",
+        "zone_id": "0",
+        "world_id": "17",
+        "event_type": "MetagameEvent",
+        "table_type": "metagame_event",
+        "instance_id": "30924",
+        "metagame_event_state_name": "ended"
+      }
+    ],
+    "returned": 5
+  }

@@ -11,6 +11,18 @@ import (
 	"time"
 )
 
+type HTTPClient interface {
+	Do(req *http.Request) (*http.Response, error)
+}
+
+var (
+	Client HTTPClient
+)
+
+func init() {
+	Client = http.DefaultClient
+}
+
 type Players struct {
 	Player []Player `json:"character_list"`
 }
@@ -30,7 +42,7 @@ func Ps2(args string) (string, error) {
 		return getCerts(args)
 	}
 	if cmd == "alert" {
-		return isAlert()
+		return isAlert(strconv.FormatInt(time.Now().Unix()-3600, 10))
 	}
 	return "false", nil
 }
@@ -84,11 +96,10 @@ type Event struct {
 	} `json:"metagame_event_id_join_metagame_event"`
 }
 
-func isAlert() (string, error) {
-	searchTime := time.Now().Unix() - 3600
+func isAlert(afterTime string) (string, error) {
 	baseUrl := "http://census.daybreakgames.com"
 	path := "/get/ps2:v2/world_event"
-	search := "?type=METAGAME&world_id=17&after=" + strconv.FormatInt(searchTime, 10) + "&c:limit=50&c:join=metagame_event^terms:description.en=*lock"
+	search := "?type=METAGAME&world_id=17&after=" + afterTime + "&c:limit=50&c:join=metagame_event^terms:description.en=*lock"
 	url := baseUrl + path + search
 	fmt.Println(url)
 
@@ -97,8 +108,7 @@ func isAlert() (string, error) {
 		return "", errors.New("Failed request")
 	}
 
-	client := http.DefaultClient
-	resp, err := client.Do(req)
+	resp, err := Client.Do(req)
 	if err != nil {
 		return "", errors.New("Failed do")
 	}
