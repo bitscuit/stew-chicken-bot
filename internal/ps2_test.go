@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -15,7 +16,8 @@ func init() {
 }
 
 func TestIsAlert(t *testing.T) {
-	json, err := ioutil.ReadFile("one-alert.json")
+	path := filepath.Join("testdata", "one-alert.json")
+	json, err := ioutil.ReadFile(path)
 	if err != nil {
 		t.Error("Failed to get json file")
 	}
