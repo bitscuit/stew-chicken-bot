@@ -99,7 +99,10 @@ type Event struct {
 func isAlert(afterTime string) (string, error) {
 	baseUrl := "http://census.daybreakgames.com"
 	path := "/get/ps2:v2/world_event"
-	search := "?type=METAGAME&world_id=17&after=" + afterTime + "&c:limit=50&c:join=metagame_event^terms:description.en=*lock"
+	search := "?type=METAGAME&world_id=17&after="
+	search += afterTime
+	search += "&c:limit=50&c:join=metagame_event^terms:description.en=*lock"
+
 	url := baseUrl + path + search
 	fmt.Println(url)
 

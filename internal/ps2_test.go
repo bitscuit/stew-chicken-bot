@@ -16,13 +16,11 @@ func init() {
 }
 
 func TestIsAlert(t *testing.T) {
-	path := filepath.Join("testdata", "one-alert.json")
+	path := filepath.Join("testdata", "ps2", "one-alert.json")
 	json, err := ioutil.ReadFile(path)
 	if err != nil {
 		t.Error("Failed to get json file")
 	}
-
-	// json := `{"World_event_list":[{"metagame_event_id": "198", "timestamp": "1582857885", "metagame_event_state_name": "started"}]}`
 
 	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		r := ioutil.NopCloser(bytes.NewReader([]byte(json)))
