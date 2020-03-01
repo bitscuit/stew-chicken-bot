@@ -36,8 +36,8 @@ func Ps2(args string) (string, error) {
 				Scheme: "https",
 				Host:   "census.daybreakgames.com",
 			},
-			UserAgent: "bot",
-			H:         http.DefaultClient,
+			UserAgent:  "bot",
+			HttpClient: http.DefaultClient,
 		}
 		return c.GetCerts(args)
 	}

@@ -9,9 +9,9 @@ import (
 )
 
 type Client struct {
-	BaseURL   *url.URL
-	UserAgent string
-	H         *http.Client
+	BaseURL    *url.URL
+	UserAgent  string
+	HttpClient *http.Client
 }
 
 type Players struct {
@@ -26,15 +26,15 @@ func (c *Client) GetCerts(player string) (string, error) {
 	path := &url.URL{Path: "/get/ps2:v2/character"}
 	path.RawQuery = "name.first_lower=" + player
 	u := c.BaseURL.ResolveReference(path)
-	resp, err := c.H.Get(u.String())
+	resp, err := c.HttpClient.Get(u.String())
 	if err != nil {
-		fmt.Errorf("%v", err)
+		fmt.Println(err)
 		return "", errors.New("Invalid URL")
 	}
 
 	var players Players
 	if err := json.NewDecoder(resp.Body).Decode(&players); err != nil {
-		fmt.Errorf("%v", err)
+		fmt.Println(err)
 		return "", errors.New("API returned invalid JSON")
 	}
 	defer resp.Body.Close()
