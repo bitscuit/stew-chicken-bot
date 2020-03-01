@@ -22,6 +22,7 @@ func TestIsAlert(t *testing.T) {
 	}{
 		{"one-alert.json", "154: Hossin Enlightenment started"},
 		{"no-alerts.json", "No alerts"},
+		// need tests for multiple alerts
 	}
 
 	for _, test := range tests {
